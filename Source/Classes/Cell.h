@@ -12,8 +12,14 @@
     
 }
 
+@property (strong, nonatomic) CCLabelTTF *symbol;
+
 @property(assign, nonatomic)int cellWidth;
 @property(assign, nonatomic)int cellHeight;
 
+/**
+ *  1 - 8 integer
+ */
+@property(assign, nonatomic)int colorNumber;
 
 @end
