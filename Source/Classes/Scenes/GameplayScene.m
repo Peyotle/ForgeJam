@@ -32,8 +32,42 @@
 	return self;
 }
 
-//TODO: Add cell touch
-//TODO: Cell selection on finger move
+- (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	//TODO: Add cell touch
+}
+
+
+- (void)touchMoved:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	//TODO: Cell selection on finger move
+}
+
+- (void)touchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	
+	//TODO: Deselect all selected cells if no matches
+	//TODO: Deselect all selected cells if touch ended not on the grid
+	//TODO: Destroy all selected and matching cells
+	
+}
+
+- (void)touchCancelled:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	//TODO: Deselect all selected cells
+	
+}
+
+- (void)destroyCells:(NSArray*)cells
+{
+	//TODO: Count scores if cells matches
+}
+
+- (void)deselectCells:(NSArray*)cells
+{
+	
+}
+
 //TODO: Destruction of connected cells
 //TODO: Create word based on selected cells
 //TODO: Add "required combinations" in top of the grid
