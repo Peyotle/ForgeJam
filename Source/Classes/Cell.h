@@ -8,6 +8,15 @@
 
 #import "cocos2d.h"
 
+NS_ENUM(int, Materials){
+	MaterialCopper,
+	MaterialIron,
+	MaterialSilver,
+	MaterialGold,
+	MaterialRuby,
+	MaterialDiamond
+};
+
 @interface Cell : CCNode {
     
 }
@@ -17,9 +26,6 @@
 @property(assign, nonatomic)int cellWidth;
 @property(assign, nonatomic)int cellHeight;
 
-/**
- *  1 - 8 integer
- */
-@property(assign, nonatomic)int colorNumber;
+- (instancetype)initWithMaterial:(enum Materials)material;
 
 @end

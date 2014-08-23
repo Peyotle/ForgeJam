@@ -33,7 +33,7 @@
 	if (self = [super init])
 	{
 		// Game Center
-		[self gridWithWidth:320 height:320 columns:10 rows:10];
+		[self gridWithWidth:320 height:320 columns:7 rows:7];
 	}
 	return self;
 }
@@ -55,26 +55,21 @@
 
 - (void)createCells
 {
-	NSString *uni=@"\U0001d11e";
-	NSString *uni2=[[NSString alloc] initWithUTF8String:"\xF0\x9D\x84\x9E"];
-	NSString *uni3=@"𝄞";
-	NSLog(@"unicode: %@ and %@ and %@",uni, uni2, uni3);
-
 	for (int i = 0; i < self.columns; i++)
 	{
 		for (int j = 0; j < self.rows; j++)
 		{
-			Cell *cell = (Cell*)[CCBReader load:@"Cell"];
+			int randomMaterialNumber = arc4random_uniform(self.numberOfColors);
+
+			Cell *cell = [[Cell alloc]initWithMaterial:randomMaterialNumber];
+			cell.cellWidth = _cellWidth;
+			cell.cellHeight = _cellHeight;
 			[self addChild:cell];
-			cell.positionType = CCPositionTypeNormalized;
-			cell.position = ccp(i * 0.1, j * 0.1);
+//			cell.positionType = CCPositionTypeNormalized;
+			cell.position = ccp(i * _cellWidth, j * _cellHeight);
 			
-			int randomSymbolNumber = arc4random_uniform(self.numberOfColors) + 1;
-			
-//			NSString *uni= [NSString stringWithFormat:@"%C", (unichar)0x1d11e];
-			NSLog(@"Random: %d", randomSymbolNumber);
-			cell.colorNumber = randomSymbolNumber;
-			cell.symbol.string = [NSString stringWithFormat:@"%d", randomSymbolNumber];
+//			cell.colorNumber = randomSymbolNumber;
+//			cell.symbol.string = [NSString stringWithFormat:@"%d", randomSymbolNumber];
 		}
 	}
 }
