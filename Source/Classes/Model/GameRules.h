@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "Cell.h"
 @interface GameRules : NSObject
+
++ (GameRules*)sharedRules;
+
+- (BOOL)shouldSelectCell:(Cell*)cell;
+
 
 @end

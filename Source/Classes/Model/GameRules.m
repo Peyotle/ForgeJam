@@ -10,4 +10,21 @@
 
 @implementation GameRules
 
++ (GameRules*)sharedRules
+{
+	static GameRules *sharedRules;
+	
+	@synchronized(self){
+		if (sharedRules == nil) {
+			sharedRules = [[self alloc]init];
+		}
+	}
+	return sharedRules;
+}
+
+- (BOOL)shouldSelectCell:(Cell*)cell
+{
+	
+	return YES;
+}
 @end

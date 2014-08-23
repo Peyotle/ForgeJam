@@ -11,6 +11,16 @@
 
 @implementation GridCell
 
+- (instancetype)init
+{
+	if (self = [super init])
+	{
+		
+	
+	}
+	return self;
+}
+
 - (void)setTemperature:(NSInteger *)temperature
 {
 	_temperature = temperature;

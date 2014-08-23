@@ -12,9 +12,10 @@
 
 @interface GameplayScene()
 @property (strong, nonatomic) Grid *grid;
+@property (strong, nonatomic) NSMutableArray *selectedCells;
 
-@property (assign, nonatomic) BOOL *selectionStarted;
-
+@property (assign, nonatomic) BOOL selectionStarted;
+@property (assign, nonatomic) BOOL touchIsOutOfBounds;
 @end
 
 @implementation GameplayScene
@@ -29,6 +30,8 @@
 	if (self = [super init])
 	{
 		// Game Center
+		self.userInteractionEnabled = YES;
+		self.selectedCells = [NSMutableArray array];
 	}
 	return self;
 }
@@ -38,20 +41,84 @@
 	[_grid placeCellsForLevel:1];
 }
 
+- (BOOL)canSelectCell:(Cell*)cell
+{
+	Cell *lastSelectedCell = self.selectedCells.lastObject;
+	
+	if (cell && !cell.isSelected && lastSelectedCell.material == cell.material){
+		
+		//Check cell position
+		if (cell.column == lastSelectedCell.column ||
+			cell.column == lastSelectedCell.column + 1 ||
+			cell.column == lastSelectedCell.column - 1)
+		{
+			if (cell.row == lastSelectedCell.row ||
+				cell.row == lastSelectedCell.row + 1 ||
+				cell.row == lastSelectedCell.row - 1)
+			{
+				return YES;
+			}
+		}
+	}
+	return NO;
+}
+
+- (BOOL)canDeleteSelectedCells
+{
+	if (_selectedCells.count > 2 && !self.touchIsOutOfBounds) {
+		return YES;
+	}
+	
+	return NO;
+}
 
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
-	//TODO: Add cell touch
+	self.selectedCells = [NSMutableArray array];
+	CGPoint touchLocation = [touch locationInNode:_grid];
+	Cell *cell = [_grid cellForTouchLocation:touchLocation];
+	
+	if (cell && !cell.isSelected) {
+		cell.isSelected = !cell.isSelected;
+		[self.selectedCells addObject:cell];
+	}
 }
 
 
 - (void)touchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
-	//TODO: Cell selection on finger move
+	CGPoint touchLocation = [touch locationInNode:_grid];
+	if (touchLocation.x < 0 || touchLocation.y < 0 ||
+		touchLocation.x > _grid.contentSize.width || touchLocation.y > _grid.contentSize.height) {
+		self.touchIsOutOfBounds = YES;
+	}else{
+		self.touchIsOutOfBounds = NO;
+	}
+	NSLog(@"Touch location x: %f, y: %f", touchLocation.x, touchLocation.y);
+	Cell *cell = [_grid cellForTouchLocation:touchLocation];
+	if ([self canSelectCell:cell]) {
+		cell.isSelected = YES;
+		[self.selectedCells addObject:cell];
+	}
 }
 
 - (void)touchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
+	
+	if ([self canDeleteSelectedCells]) {
+		[self destroyCells];
+	}else{
+		int delayCounter = 0;
+		
+		for (int i = self.selectedCells.count - 1; i >= 0; i--) {
+			delayCounter++;
+			Cell *cell = self.selectedCells[i];
+			CCActionFiniteTime *delay = [CCActionDelay actionWithDuration:0.1 * delayCounter];
+			CCActionFiniteTime *deselect = [CCActionCallFunc actionWithTarget:cell selector:@selector(switchSelection)];
+			CCActionSequence *sequence = [CCActionSequence actionOne:delay two:deselect];
+			[cell runAction:sequence];
+		}
+	}
 	
 	//TODO: Deselect all selected cells if no matches
 	
@@ -66,8 +133,14 @@
 	
 }
 
-- (void)destroyCells:(NSArray*)cells
+- (void)destroyCells
 {
+	for (int i = self.selectedCells.count - 1; i >= 0; i--) {
+
+		Cell *cell = self.selectedCells[i];
+		[_grid removeCell:cell];
+	}
+
 	//TODO: Count scores if cells matches
 }
 

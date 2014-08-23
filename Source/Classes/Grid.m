@@ -27,6 +27,7 @@ static const NSInteger NumRows = 8;
 
 @property(assign, nonatomic)int numberOfColors;
 
+@property(assign, nonatomic)CCNode *gridCellsContainer;
 @end
 
 @implementation Grid {
@@ -43,6 +44,11 @@ static const NSInteger NumRows = 8;
 		[self gridWithWidth:320 height:365 columns:NumColumns rows:NumRows];
 	}
 	return self;
+}
+
+- (void)didLoadFromCCB
+{
+	_gridCellsContainer = [self getChildByName:@"gridCellsContainer" recursively:NO];
 }
 
 - (void)gridWithWidth:(int)width height:(int)height columns:(int)columns rows:(int)rows
@@ -71,11 +77,30 @@ static const NSInteger NumRows = 8;
 			
 			// If the value is 1, create a tile object.
 			if ([value integerValue] == 1) {
-				_gridCells[column][tileRow] = [[GridCell alloc] init];
+				GridCell *gridCell = (GridCell*)[CCBReader load:@"GridCell"];
+				_gridCells[column][tileRow] = gridCell;
+				[_gridCellsContainer addChild:gridCell];
+				gridCell.position = ccp(column * (self.cellWidth + 1), row * (self.cellHeight + 1));
 			}
 		}];
 	}];
+
 	[self placeCellsFromSet:[self createCells]];
+}
+
+- (void)placeGridCells
+{
+	for (int i = 0; i < self.columns; i++)
+	{
+		for (int j = 0; j < self.rows; j++)
+		{
+			GridCell *cell = _gridCells[i][j];
+			if (cell) {
+				[_gridCellsContainer addChild:cell];
+				cell.position = ccp(i * (self.cellWidth + 1), j * (self.cellHeight + 1));
+			}
+		}
+	}
 }
 
 - (Cell *)cellAtColumn:(int)column row:(int)row
@@ -109,8 +134,8 @@ static const NSInteger NumRows = 8;
 - (Cell *)createCellAtColumn:(int)column row:(int)row withMaterial:(enum Materials)material
 {
 	Cell *cell = (Cell*)[[Cell alloc]initWithMaterial:material];
-	cell.cellWidth = _cellWidth;
-	cell.cellHeight = _cellHeight;
+	cell.cellWidth = _cellWidth - 2;
+	cell.cellHeight = _cellHeight - 2;
 	cell.column = column;
 	cell.row = row;
 	
@@ -123,8 +148,26 @@ static const NSInteger NumRows = 8;
 {
 	for (Cell *cell in set) {
 		[self addChild:cell];
-		cell.position = ccp(cell.column * (cell.cellWidth + 1), cell.row * (cell.cellHeight + 1));
+		cell.position = ccp(cell.column * (self.cellWidth + 1), cell.row * (self.cellHeight + 1));
 	}
+}
+
+- (Cell*)cellForTouchLocation:(CGPoint)location
+{
+	
+	// Find column and row on selected location
+	
+	//TODO: add borders around the column and row
+	int column = location.x / self.cellWidth;
+	int row = location.y / self.cellHeight;
+	
+	Cell *cell = [self cellAtColumn:column row:row];
+	return cell;
+}
+
+- (void)removeCell:(Cell*)cell
+{
+	[cell destroy];
 }
 
 - (NSDictionary *)loadJSON:(NSString *)filename {

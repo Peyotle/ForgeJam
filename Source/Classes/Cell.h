@@ -20,6 +20,7 @@ NS_ENUM(int, Materials){
 @interface Cell : CCNode {
     
 }
+@property(assign, nonatomic)BOOL isSelected;
 
 @property (strong, nonatomic) CCLabelTTF *symbol;
 
@@ -28,7 +29,9 @@ NS_ENUM(int, Materials){
 
 @property(assign, nonatomic)int column;
 @property(assign, nonatomic)int row;
+@property(assign, nonatomic)int material;
 
 - (instancetype)initWithMaterial:(enum Materials)material;
-
+- (void)switchSelection;
+- (void)destroy;
 @end

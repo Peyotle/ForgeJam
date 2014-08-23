@@ -11,11 +11,11 @@
 @interface Cell()
 
 @property (strong, nonatomic)NSArray *materialsAray;
-@property(assign, nonatomic)enum Materials materialNumber;
-@property(assign, nonatomic)BOOL isSelected;
-
+@property (strong, nonatomic)CCSprite *image;
 
 @property (strong, nonatomic)CCNodeColor *colorCell;
+
+
 @end
 
 @implementation Cell
@@ -23,11 +23,10 @@
 
 - (instancetype)initWithMaterial:(enum Materials)material
 {
-	self.materialNumber = material;
 	
 	NSString *cellPath = [NSString stringWithFormat:@"%@", self.materialsAray[material]];
 	self = (Cell*)[CCBReader load:cellPath];
-	
+	self.material = material;
 	return self;
 }
 
@@ -35,14 +34,34 @@
 {
 	if (self = [super init])
 	{
-		
+	
 	}
 	return self;
 }
 
-- (void)setMaterialNumber:(enum Materials)materialNumber
+- (void)switchSelection
 {
-	_materialNumber = materialNumber;
+	self.isSelected = !self.isSelected;
+}
+
+- (void)destroy
+{
+	self.image.visible = NO;
+	CCParticleSystem *explosion = (CCParticleSystem*)[CCBReader load:@"CellExplosion"];
+	explosion.positionType = CCPositionTypeNormalized;
+	explosion.position = ccp(0.5, 0.5);
+	[self addChild:explosion];
+}
+- (void)setIsSelected:(BOOL)isSelected
+{
+	_isSelected = isSelected;
+	CCActionFiniteTime *fadeAction;
+	if (isSelected) {
+		fadeAction = [CCActionFadeTo actionWithDuration:0.2 opacity:0.4];
+	}else{
+		fadeAction = [CCActionFadeTo actionWithDuration:0.2 opacity:0.0];
+	}
+	[[self getChildByName:@"highlight" recursively:NO] runAction:fadeAction];
 }
 
 - (NSArray *)materialsAray

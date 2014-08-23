@@ -10,7 +10,7 @@
 #import "cocos2d.h"
 #import "Cell.h"
 
-@interface Grid : CCNode {
+@interface Grid : CCNodeColor {
     
 }
 
@@ -18,5 +18,6 @@
 - (Cell *)cellAtColumn:(int)column row:(int)row;
 
 - (void)placeCellsForLevel:(int)level;
-
+- (Cell*)cellForTouchLocation:(CGPoint)location;
+- (void)removeCell:(Cell*)cell;
 @end
