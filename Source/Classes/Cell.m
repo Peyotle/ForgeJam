@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic)NSArray *materialsAray;
 @property(assign, nonatomic)enum Materials materialNumber;
+@property(assign, nonatomic)BOOL isSelected;
+
 
 @property (strong, nonatomic)CCNodeColor *colorCell;
 @end
@@ -23,7 +25,7 @@
 {
 	self.materialNumber = material;
 	
-	NSString *cellPath = [NSString stringWithFormat:@"Cells/%@", self.materialsAray[material]];
+	NSString *cellPath = [NSString stringWithFormat:@"%@", self.materialsAray[material]];
 	self = (Cell*)[CCBReader load:cellPath];
 	
 	return self;
@@ -33,7 +35,7 @@
 {
 	if (self = [super init])
 	{
-//		self = [self initWithMaterial:MaterialIron];
+		
 	}
 	return self;
 }

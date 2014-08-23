@@ -8,6 +8,7 @@
 
 #import "GameplayScene.h"
 #import "Grid.h"
+#import "GameRules.h"
 
 @interface GameplayScene()
 @property (strong, nonatomic) Grid *grid;
@@ -31,6 +32,12 @@
 	}
 	return self;
 }
+
+- (void) didLoadFromCCB
+{
+	[_grid placeCellsForLevel:1];
+}
+
 
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {

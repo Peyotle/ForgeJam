@@ -26,6 +26,9 @@ NS_ENUM(int, Materials){
 @property(assign, nonatomic)int cellWidth;
 @property(assign, nonatomic)int cellHeight;
 
+@property(assign, nonatomic)int column;
+@property(assign, nonatomic)int row;
+
 - (instancetype)initWithMaterial:(enum Materials)material;
 
 @end

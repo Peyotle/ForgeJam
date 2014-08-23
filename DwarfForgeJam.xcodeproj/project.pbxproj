@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C652E2619A82FC6004BE94D /* GameRules.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C652E2519A82FC6004BE94D /* GameRules.m */; };
+		7C652E2919A83184004BE94D /* GridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C652E2819A83184004BE94D /* GridCell.m */; };
+		7C652E2B19A83487004BE94D /* level_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C652E2A19A83487004BE94D /* level_1.json */; };
 		7C9AE20819A731B90094571F /* GameplayScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9AE20719A731B90094571F /* GameplayScene.m */; };
 		7C9AE20D19A732150094571F /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9AE20C19A732150094571F /* Cell.m */; };
 		7C9AE21019A732300094571F /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9AE20F19A732300094571F /* Grid.m */; };
@@ -60,6 +63,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7C652E2419A82FC6004BE94D /* GameRules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameRules.h; path = Source/Classes/Model/GameRules.h; sourceTree = "<group>"; };
+		7C652E2519A82FC6004BE94D /* GameRules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameRules.m; path = Source/Classes/Model/GameRules.m; sourceTree = "<group>"; };
+		7C652E2719A83184004BE94D /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridCell.h; path = Source/Classes/GridCell.h; sourceTree = "<group>"; };
+		7C652E2819A83184004BE94D /* GridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridCell.m; path = Source/Classes/GridCell.m; sourceTree = "<group>"; };
+		7C652E2A19A83487004BE94D /* level_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level_1.json; sourceTree = "<group>"; };
 		7C9AE20619A731B90094571F /* GameplayScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameplayScene.h; path = Source/Classes/Scenes/GameplayScene.h; sourceTree = "<group>"; };
 		7C9AE20719A731B90094571F /* GameplayScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameplayScene.m; path = Source/Classes/Scenes/GameplayScene.m; sourceTree = "<group>"; };
 		7C9AE20B19A732150094571F /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cell.h; path = Source/Classes/Cell.h; sourceTree = "<group>"; };
@@ -126,14 +134,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C652E2219A82FA4004BE94D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7C652E2419A82FC6004BE94D /* GameRules.h */,
+				7C652E2519A82FC6004BE94D /* GameRules.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		7C9AE20219A7306F0094571F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7C652E2219A82FA4004BE94D /* Model */,
 				7C9AE20419A731040094571F /* Scenes */,
 				7C9AE20B19A732150094571F /* Cell.h */,
 				7C9AE20C19A732150094571F /* Cell.m */,
 				7C9AE20E19A732300094571F /* Grid.h */,
 				7C9AE20F19A732300094571F /* Grid.m */,
+				7C652E2719A83184004BE94D /* GridCell.h */,
+				7C652E2819A83184004BE94D /* GridCell.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -239,6 +259,7 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7C652E2A19A83487004BE94D /* level_1.json */,
 				B73789911807667A0076A88C /* Icons */,
 				B737893A180761570076A88C /* Published-iOS */,
 			);
@@ -283,7 +304,7 @@
 		B77F1B2617B978D7009739AE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Peyotle;
 				TargetAttributes = {
 					B77F1B2D17B978D7009739AE = {
@@ -346,6 +367,7 @@
 				B71F5915188484E7003F4D28 /* iPhone-old.png in Resources */,
 				B71F5917188484E7003F4D28 /* iPhone.png in Resources */,
 				B7378975180762440076A88C /* Default-568h@2x.png in Resources */,
+				7C652E2B19A83487004BE94D /* level_1.json in Resources */,
 				B71F5918188484E7003F4D28 /* iPhone@2x.png in Resources */,
 				B7378977180762440076A88C /* Default.png in Resources */,
 				B71F5911188484E7003F4D28 /* iPad-old.png in Resources */,
@@ -379,9 +401,11 @@
 				7C9AE20D19A732150094571F /* Cell.m in Sources */,
 				7C9AE21319A735B20094571F /* IntroScene.m in Sources */,
 				7C9AE21019A732300094571F /* Grid.m in Sources */,
+				7C652E2619A82FC6004BE94D /* GameRules.m in Sources */,
 				7C9AE20819A731B90094571F /* GameplayScene.m in Sources */,
 				B737893F1807617C0076A88C /* AppDelegate.m in Sources */,
 				B7378994180767190076A88C /* MainScene.m in Sources */,
+				7C652E2919A83184004BE94D /* GridCell.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,7 +424,12 @@
 		B77F1CDC17B978D8009739AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -410,9 +439,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -421,7 +455,12 @@
 		B77F1CDD17B978D8009739AE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -429,7 +468,11 @@
 					"NS_BLOCK_ASSERTIONS=1",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
@@ -441,7 +484,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -475,7 +517,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
