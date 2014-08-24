@@ -22,4 +22,6 @@
 - (void)removeCell:(Cell*)cell;
 - (NSArray*)dropCells;
 - (void)animateCellsDrop:(NSArray*)columns completion:(dispatch_block_t)completion;
+- (NSArray*)addNewCells;
+- (void)animateNewCells:(NSArray*)columns completion:(dispatch_block_t)completion;
 @end

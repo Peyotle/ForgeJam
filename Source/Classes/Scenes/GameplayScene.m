@@ -23,6 +23,7 @@
 
 @property (assign, nonatomic) int gold;
 @property (assign, nonatomic) int completion;
+@property (assign, nonatomic) BOOL introIsPresented;
 
 
 @end
@@ -48,11 +49,20 @@
 	return self;
 }
 
-- (void) didLoadFromCCB
+- (void)showIntroScreen
+{
+	CCNode *introScreen = [CCBReader load:@"Intro_Level_1"];
+	[self addChild:introScreen];
+	introScreen.name = @"introScreen";
+	self.introIsPresented = YES;
+}
+
+- (void)didLoadFromCCB
 {
 	[_grid placeCellsForLevel:1];
 	self.gold = 0;
 	self.completion = 0;
+	[self showIntroScreen];
 }
 
 - (BOOL)canSelectCell:(Cell*)cell
@@ -88,6 +98,19 @@
 
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
+	if (self.introIsPresented) {
+		CCNode *introScreen = [self getChildByName:@"introScreen" recursively:NO];
+		if (introScreen) {
+			CCActionFiniteTime *fadeAction = [CCActionFadeOut actionWithDuration:0.5];
+			CCActionFiniteTime *actionRemove = [CCActionCallBlock actionWithBlock:^{
+				[introScreen removeFromParent];
+				self.introIsPresented = NO;
+			}];
+			CCActionSequence *sequence = [CCActionSequence actionOne:fadeAction two:actionRemove];
+			[introScreen runAction:sequence];
+		}
+		
+	}
 	self.selectedCells = [NSMutableArray array];
 	CGPoint touchLocation = [touch locationInNode:_grid];
 	Cell *cell = [_grid cellForTouchLocation:touchLocation];
@@ -185,6 +208,12 @@
 
 - (void)buyMaterials
 {
+	if (self.gold >= 100) {
+		self.gold -= 100;
+		[_grid animateNewCells:[_grid addNewCells] completion:^{
+			NSLog(@"Added cells");
+		}];
+	}
 	
 }
 

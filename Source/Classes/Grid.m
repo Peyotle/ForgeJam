@@ -136,6 +136,77 @@ static const NSInteger NumRows = 8;
 	return cellsSet;
 }
 
+- (NSArray*)addNewCells
+{
+	NSMutableArray *columns = [NSMutableArray array];
+	
+	int materialNumber = 0;
+	
+	for (NSInteger column = 0; column < NumColumns; column++) {
+		
+		NSMutableArray *array;
+		
+		// 1
+		for (NSInteger row = NumRows - 1; row >= 0 && _cells[column][row] == nil; row--) {
+			
+			// 2
+			if (_gridCells[column][row] != nil) {
+				
+				// 3
+				NSUInteger newMaterialNumber;
+				do {
+					newMaterialNumber = arc4random_uniform(self.numberOfColors);
+				} while (newMaterialNumber == materialNumber);
+				materialNumber = newMaterialNumber;
+				
+				// 4
+				Cell *cell = [self createCellAtColumn:column row:row withMaterial:newMaterialNumber];
+				
+				// 5
+				if (array == nil) {
+					array = [NSMutableArray array];
+					[columns addObject:array];
+				}
+				[array addObject:cell];
+			}
+		}
+	}
+	
+	return columns;
+}
+
+- (void)animateNewCells:(NSArray*)columns completion:(dispatch_block_t)completion
+{
+	__block float longestDuration = 0;
+	
+	for (NSArray *array in columns) {
+		[array enumerateObjectsUsingBlock:^(Cell *cell, NSUInteger idx, BOOL *stop) {
+			CGPoint newPosition = [self positionForCell:cell];
+			[_gridCellsContainer addChild:cell];
+			cell.scale = 0.1;
+			cell.position = newPosition;
+			float delay = idx * 0.2 + 0.1;
+			float animDuration = 0.1;// = (cell.position.y - newPosition.y) / _cellHeight * 0.1;
+			
+			//TODO: REmove explosion later
+			CCParticleSystem *explosion = (CCParticleSystem*)[CCBReader load:@"CellExplosion"];
+			explosion.positionType = CCPositionTypeNormalized;
+			explosion.position = newPosition;
+			[self addChild:explosion];
+			
+			longestDuration = MAX(longestDuration, animDuration + delay);
+			NSLog(@"Duration: %f", animDuration);
+			CCActionScaleTo *scaleAction = [CCActionScaleTo actionWithDuration:0.1 scale:1];
+//			CCActionMoveTo *moveAction = [CCActionMoveTo actionWithDuration:animDuration position:newPosition];
+			CCActionFiniteTime *delayAction = [CCActionDelay actionWithDuration:delay];
+			[cell runAction:[CCActionSequence actionOne:delayAction two:scaleAction]];
+		}];
+	}
+	CCActionFiniteTime *delayAction = [CCActionDelay actionWithDuration:longestDuration];
+	CCActionSequence *waitSequence = [CCActionSequence actionOne:delayAction two:[CCActionCallBlock actionWithBlock:completion]];
+	[self runAction:waitSequence];
+}
+
 - (Cell *)createCellAtColumn:(int)column row:(int)row withMaterial:(enum Materials)material
 {
 	Cell *cell = (Cell*)[[Cell alloc]initWithMaterial:material];
@@ -228,7 +299,6 @@ static const NSInteger NumRows = 8;
 			longestDuration = MAX(longestDuration, animDuration + delay);
 			NSLog(@"Duration: %f", animDuration);
 			CCActionMoveTo *moveAction = [CCActionMoveTo actionWithDuration:animDuration position:newPosition];
-			CCActionEaseOut *easeAction = [CCActionEaseOut actionWithAction:moveAction];
 			CCActionFiniteTime *delayAction = [CCActionDelay actionWithDuration:delay];
 			[cell runAction:[CCActionSequence actionOne:delayAction two:moveAction]];
 		}];
