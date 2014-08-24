@@ -78,9 +78,11 @@ static const NSInteger NumRows = 8;
 			// If the value is 1, create a tile object.
 			if ([value integerValue] == 1) {
 				GridCell *gridCell = (GridCell*)[CCBReader load:@"GridCell"];
+				gridCell.column = column;
+				gridCell.row = tileRow;
 				_gridCells[column][tileRow] = gridCell;
 				[_gridCellsContainer addChild:gridCell];
-				gridCell.position = ccp(column * (self.cellWidth + 1), row * (self.cellHeight + 1));
+				gridCell.position = [self positionForCell:gridCell];// ccp(column * (self.cellWidth + 1), row * (self.cellHeight + 1));
 			}
 		}];
 	}];
@@ -95,9 +97,12 @@ static const NSInteger NumRows = 8;
 		for (int j = 0; j < self.rows; j++)
 		{
 			GridCell *cell = _gridCells[i][j];
+			cell.column = i;
+			cell.row = j;
+			
 			if (cell) {
 				[_gridCellsContainer addChild:cell];
-				cell.position = ccp(i * (self.cellWidth + 1), j * (self.cellHeight + 1));
+				cell.position = [self positionForCell:cell]; ccp(i * (self.cellWidth + 1), j * (self.cellHeight + 1));
 			}
 		}
 	}
@@ -148,13 +153,17 @@ static const NSInteger NumRows = 8;
 {
 	for (Cell *cell in set) {
 		[self addChild:cell];
-		cell.position = ccp(cell.column * (self.cellWidth + 1), cell.row * (self.cellHeight + 1));
+		cell.position = [self positionForCell:cell];
 	}
+}
+
+- (CGPoint)positionForCell:(id<CellProtocol>)cell
+{
+	return ccp(cell.column * (self.cellWidth + 1), cell.row * (self.cellHeight + 1));
 }
 
 - (Cell*)cellForTouchLocation:(CGPoint)location
 {
-	
 	// Find column and row on selected location
 	
 	//TODO: add borders around the column and row
@@ -167,7 +176,66 @@ static const NSInteger NumRows = 8;
 
 - (void)removeCell:(Cell*)cell
 {
+	_cells[cell.column][cell.row] = nil;
 	[cell destroy];
+}
+
+- (NSArray*)dropCells
+{
+	NSMutableArray *columnsArray = [NSMutableArray array];
+	for (int column = 0; column < self.columns; column++)
+	{
+		NSMutableArray *cellsArray;// = [NSMutableArray array];
+		for (int row = 0; row < self.rows; row++)
+		{
+			if (_gridCells[column][row] != nil && _cells[column][row] == nil) {
+				for (int lookup = row + 1; lookup < NumRows; lookup++) {
+					Cell *cell = _cells[column][lookup];
+					if (cell != nil) {
+						// 4
+						_cells[column][lookup] = nil;
+						_cells[column][row] = cell;
+						cell.row = row;
+						
+						// 5
+						if (cellsArray == nil) {
+							cellsArray = [NSMutableArray array];
+							[columnsArray addObject:cellsArray];
+						}
+						[cellsArray addObject:cell];
+						
+						// 6
+						break;
+					}
+				}
+			}
+
+		}
+	}
+	return columnsArray;
+}
+
+- (void)animateCellsDrop:(NSArray*)columns completion:(dispatch_block_t)completion
+{
+	__block float longestDuration = 0;
+	
+	for (NSArray *array in columns) {
+		[array enumerateObjectsUsingBlock:^(Cell *cell, NSUInteger idx, BOOL *stop) {
+			CGPoint newPosition = [self positionForCell:cell];
+			float delay = idx * 0.1 + 0.1;
+			float animDuration = (cell.position.y - newPosition.y) / _cellHeight * 0.1;
+			
+			longestDuration = MAX(longestDuration, animDuration + delay);
+			NSLog(@"Duration: %f", animDuration);
+			CCActionMoveTo *moveAction = [CCActionMoveTo actionWithDuration:animDuration position:newPosition];
+			CCActionEaseOut *easeAction = [CCActionEaseOut actionWithAction:moveAction];
+			CCActionFiniteTime *delayAction = [CCActionDelay actionWithDuration:delay];
+			[cell runAction:[CCActionSequence actionOne:delayAction two:moveAction]];
+		}];
+	}
+	CCActionFiniteTime *delayAction = [CCActionDelay actionWithDuration:longestDuration];
+	CCActionSequence *waitSequence = [CCActionSequence actionOne:delayAction two:[CCActionCallBlock actionWithBlock:completion]];
+	[self runAction:waitSequence];
 }
 
 - (NSDictionary *)loadJSON:(NSString *)filename {

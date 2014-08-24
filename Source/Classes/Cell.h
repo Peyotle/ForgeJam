@@ -7,6 +7,7 @@
 //
 
 #import "cocos2d.h"
+#import "CellProtocol.h"
 
 NS_ENUM(int, Materials){
 	MaterialCopper,
@@ -17,7 +18,7 @@ NS_ENUM(int, Materials){
 	MaterialDiamond
 };
 
-@interface Cell : CCNode {
+@interface Cell : CCNode <CellProtocol>{
     
 }
 @property(assign, nonatomic)BOOL isSelected;

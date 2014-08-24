@@ -104,7 +104,7 @@
 
 - (void)touchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
-	
+	self.userInteractionEnabled = NO;
 	if ([self canDeleteSelectedCells]) {
 		[self destroyCells];
 	}else{
@@ -117,9 +117,10 @@
 			CCActionFiniteTime *deselect = [CCActionCallFunc actionWithTarget:cell selector:@selector(switchSelection)];
 			CCActionSequence *sequence = [CCActionSequence actionOne:delay two:deselect];
 			[cell runAction:sequence];
+			self.userInteractionEnabled = YES;
 		}
 	}
-	
+//	self.userInteractionEnabled = YES;
 	//TODO: Deselect all selected cells if no matches
 	
 	//TODO: Deselect all selected cells if touch ended not on the grid
@@ -136,11 +137,13 @@
 - (void)destroyCells
 {
 	for (int i = self.selectedCells.count - 1; i >= 0; i--) {
-
 		Cell *cell = self.selectedCells[i];
 		[_grid removeCell:cell];
 	}
-
+	NSArray *droppedCellsArray = [_grid dropCells];
+	[_grid animateCellsDrop:droppedCellsArray completion:^{
+		self.userInteractionEnabled = YES;
+	}];
 	//TODO: Count scores if cells matches
 }
 

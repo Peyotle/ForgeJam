@@ -76,6 +76,7 @@
 		7C9AE20F19A732300094571F /* Grid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Grid.m; path = Source/Classes/Grid.m; sourceTree = "<group>"; };
 		7C9AE21119A735B20094571F /* IntroScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntroScene.h; path = Source/Classes/Scenes/IntroScene.h; sourceTree = "<group>"; };
 		7C9AE21219A735B20094571F /* IntroScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntroScene.m; path = Source/Classes/Scenes/IntroScene.m; sourceTree = "<group>"; };
+		7CC57D1519A9635400DAE163 /* CellProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CellProtocol.h; path = Source/Classes/CellProtocol.h; sourceTree = "<group>"; };
 		8392007918EE8E3300B6C429 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		B71F5907188484E7003F4D28 /* iPad-old.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old.png"; path = "Icons/iPad-old.png"; sourceTree = "<group>"; };
 		B71F5908188484E7003F4D28 /* iPad-old@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old@2x.png"; path = "Icons/iPad-old@2x.png"; sourceTree = "<group>"; };
@@ -154,6 +155,7 @@
 				7C9AE20F19A732300094571F /* Grid.m */,
 				7C652E2719A83184004BE94D /* GridCell.h */,
 				7C652E2819A83184004BE94D /* GridCell.m */,
+				7CC57D1519A9635400DAE163 /* CellProtocol.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

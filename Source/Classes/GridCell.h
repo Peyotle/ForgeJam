@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
-
-@interface GridCell : CCNode {
+#import "CellProtocol.h"
+@interface GridCell : CCNode <CellProtocol> {
     
 }
 @property (assign, nonatomic) NSInteger *temperature;
+
+@property(assign, nonatomic)int column;
+@property(assign, nonatomic)int row;
 
 @end

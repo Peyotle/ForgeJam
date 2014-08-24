@@ -20,4 +20,6 @@
 - (void)placeCellsForLevel:(int)level;
 - (Cell*)cellForTouchLocation:(CGPoint)location;
 - (void)removeCell:(Cell*)cell;
+- (NSArray*)dropCells;
+- (void)animateCellsDrop:(NSArray*)columns completion:(dispatch_block_t)completion;
 @end

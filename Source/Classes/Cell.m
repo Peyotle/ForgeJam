@@ -46,11 +46,16 @@
 
 - (void)destroy
 {
-	self.image.visible = NO;
+//	self.image.visible = NO;
 	CCParticleSystem *explosion = (CCParticleSystem*)[CCBReader load:@"CellExplosion"];
 	explosion.positionType = CCPositionTypeNormalized;
 	explosion.position = ccp(0.5, 0.5);
 	[self addChild:explosion];
+	
+	CCActionSequence *deleteSequence = [CCActionSequence actionOne:[CCActionDelay actionWithDuration:0.3] two:[CCActionCallBlock actionWithBlock:^{
+		[self removeFromParent];
+	}]];
+	[self runAction:deleteSequence];
 }
 - (void)setIsSelected:(BOOL)isSelected
 {
