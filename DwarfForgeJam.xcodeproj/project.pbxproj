@@ -14,6 +14,7 @@
 		7C9AE20D19A732150094571F /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9AE20C19A732150094571F /* Cell.m */; };
 		7C9AE21019A732300094571F /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9AE20F19A732300094571F /* Grid.m */; };
 		7C9AE21319A735B20094571F /* IntroScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9AE21219A735B20094571F /* IntroScene.m */; };
+		7CC57D1819A96A5500DAE163 /* Hall of the Mountain King.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC57D1719A96A5500DAE163 /* Hall of the Mountain King.mp3 */; };
 		8392007A18EE8E3300B6C429 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8392007918EE8E3300B6C429 /* GLKit.framework */; };
 		B71F5911188484E7003F4D28 /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
 		B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5908188484E7003F4D28 /* iPad-old@2x.png */; };
@@ -77,6 +78,7 @@
 		7C9AE21119A735B20094571F /* IntroScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntroScene.h; path = Source/Classes/Scenes/IntroScene.h; sourceTree = "<group>"; };
 		7C9AE21219A735B20094571F /* IntroScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntroScene.m; path = Source/Classes/Scenes/IntroScene.m; sourceTree = "<group>"; };
 		7CC57D1519A9635400DAE163 /* CellProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CellProtocol.h; path = Source/Classes/CellProtocol.h; sourceTree = "<group>"; };
+		7CC57D1719A96A5500DAE163 /* Hall of the Mountain King.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Hall of the Mountain King.mp3"; sourceTree = "<group>"; };
 		8392007918EE8E3300B6C429 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		B71F5907188484E7003F4D28 /* iPad-old.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old.png"; path = "Icons/iPad-old.png"; sourceTree = "<group>"; };
 		B71F5908188484E7003F4D28 /* iPad-old@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old@2x.png"; path = "Icons/iPad-old@2x.png"; sourceTree = "<group>"; };
@@ -173,6 +175,14 @@
 			name = Scenes;
 			sourceTree = "<group>";
 		};
+		7CC57D1619A96A4500DAE163 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				7CC57D1719A96A5500DAE163 /* Hall of the Mountain King.mp3 */,
+			);
+			name = Sound;
+			sourceTree = "<group>";
+		};
 		9222E2B918734FF800A246C7 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +271,7 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7CC57D1619A96A4500DAE163 /* Sound */,
 				7C652E2A19A83487004BE94D /* level_1.json */,
 				B73789911807667A0076A88C /* Icons */,
 				B737893A180761570076A88C /* Published-iOS */,
@@ -358,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B71F5919188484E7003F4D28 /* Settings.png in Resources */,
+				7CC57D1819A96A5500DAE163 /* Hall of the Mountain King.mp3 in Resources */,
 				B7378978180762440076A88C /* Default@2x.png in Resources */,
 				B71F5914188484E7003F4D28 /* iPad@2x.png in Resources */,
 				B71F5913188484E7003F4D28 /* iPad.png in Resources */,

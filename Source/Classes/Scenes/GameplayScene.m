@@ -13,9 +13,18 @@
 @interface GameplayScene()
 @property (strong, nonatomic) Grid *grid;
 @property (strong, nonatomic) NSMutableArray *selectedCells;
+@property (strong, nonatomic) CCLabelTTF *goldLabel;
+@property (strong, nonatomic) CCLabelTTF *completionLabel;
 
 @property (assign, nonatomic) BOOL selectionStarted;
 @property (assign, nonatomic) BOOL touchIsOutOfBounds;
+
+@property (assign, nonatomic) int goldForOneCell;
+
+@property (assign, nonatomic) int gold;
+@property (assign, nonatomic) int completion;
+
+
 @end
 
 @implementation GameplayScene
@@ -32,6 +41,9 @@
 		// Game Center
 		self.userInteractionEnabled = YES;
 		self.selectedCells = [NSMutableArray array];
+		self.goldForOneCell = 10;
+		self.gold = 0;
+		self.completion = 0;
 	}
 	return self;
 }
@@ -39,6 +51,8 @@
 - (void) didLoadFromCCB
 {
 	[_grid placeCellsForLevel:1];
+	self.gold = 0;
+	self.completion = 0;
 }
 
 - (BOOL)canSelectCell:(Cell*)cell
@@ -104,13 +118,13 @@
 
 - (void)touchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
-	self.userInteractionEnabled = NO;
+	
 	if ([self canDeleteSelectedCells]) {
 		[self destroyCells];
 	}else{
 		int delayCounter = 0;
 		
-		for (int i = self.selectedCells.count - 1; i >= 0; i--) {
+		for (int i = (int)self.selectedCells.count - 1; i >= 0; i--) {
 			delayCounter++;
 			Cell *cell = self.selectedCells[i];
 			CCActionFiniteTime *delay = [CCActionDelay actionWithDuration:0.1 * delayCounter];
@@ -136,15 +150,32 @@
 
 - (void)destroyCells
 {
-	for (int i = self.selectedCells.count - 1; i >= 0; i--) {
+	self.userInteractionEnabled = NO;
+	int addedGold = 0;
+	for (int i = (int)self.selectedCells.count - 1; i >= 0; i--) {
 		Cell *cell = self.selectedCells[i];
 		[_grid removeCell:cell];
+		addedGold += [self goldForCell:cell];
 	}
 	NSArray *droppedCellsArray = [_grid dropCells];
 	[_grid animateCellsDrop:droppedCellsArray completion:^{
 		self.userInteractionEnabled = YES;
+		self.gold += addedGold;
 	}];
+	self.completion += 5;
 	//TODO: Count scores if cells matches
+}
+
+- (int)goldForCell:(Cell*)cell
+{
+	enum Materials material = cell.material;
+	int price = self.goldForOneCell;
+	if(material == MaterialRuby){
+		price = price * 2;
+	}else if (material == MaterialSilver){
+		price = -self.goldForOneCell;
+	}
+	return price;
 }
 
 - (void)deselectCells:(NSArray*)cells
@@ -152,6 +183,22 @@
 	
 }
 
+- (void)buyMaterials
+{
+	
+}
+
+- (void)setGold:(int)gold
+{
+	_gold = gold;
+	[_goldLabel setString:[NSString stringWithFormat:@"%dAu", self.gold]];
+}
+
+- (void)setCompletion:(int)completion
+{
+	_completion = completion;
+	[_completionLabel setString:[NSString stringWithFormat:@"%d", completion]];
+}
 //TODO: Destruction of connected cells
 //TODO: Create word based on selected cells
 //TODO: Add "required combinations" in top of the grid
